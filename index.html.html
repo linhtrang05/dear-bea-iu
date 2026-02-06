@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Happy Valentine's Day 💕</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{
+  width:100%;height:100%;
+  font-family:'Quicksand',sans-serif;
+  background:#ffeef1;
+  overflow:hidden;
+}
+
+/* START SCREEN */
+#start{
+  position:fixed;
+  inset:0;
+  background:linear-gradient(135deg,#ffeef1,#ffd6dc);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:999;
+}
+
+/* CLICK LAYER – BẮT TOUCH */
+#tap-layer{
+  position:absolute;
+  inset:0;
+  z-index:10;
+}
+
+/* ENVELOPE */
+.envelope{
+  width:200px;
+  height:130px;
+  position:relative;
+}
+.env-body{
+  width:100%;
+  height:100%;
+  background:#fff;
+  border-radius:0 0 16px 16px;
+  box-shadow:0 20px 40px rgba(0,0,0,.15);
+}
+.env-flap{
+  position:absolute;
+  top:0;left:0;
+  width:100%;height:65px;
+  background:#fbcfe8;
+  clip-path:polygon(0 0,100% 0,50% 100%);
+  transform-origin:top;
+  transition:transform .8s ease;
+}
+.envelope.open .env-flap{
+  transform:rotateX(180deg);
+}
+.tap-text{
+  margin-top:20px;
+  color:#ec4899;
+  font-size:16px;
+  text-align:center;
+}
+
+/* APP */
+#app{
+  display:none;
+  width:100%;height:100%;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+}
+
+/* HEARTS */
+#hearts{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:1;
+}
+.heart{
+  position:absolute;
+  top:-40px;
+  animation:fall linear forwards;
+}
+@keyframes fall{
+  to{transform:translateY(110vh);opacity:0}
+}
+
+/* CARD */
+.card{
+  z-index:5;
+  width:90%;
+  max-width:420px;
+  background:#fff;
+  border-radius:24px;
+  padding:20px;
+  text-align:center;
+  box-shadow:0 20px 40px rgba(255,105,135,.25);
+}
+.font-romantic{font-family:'Dancing Script',cursive}
+#typing{
+  min-height:26px;
+  font-family:'Dancing Script',cursive;
+  font-size:20px;
+  color:#ec4899;
+  margin-top:12px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- START -->
+<div id="start">
+  <div class="envelope" id="envelope">
+    <div class="env-flap"></div>
+    <div class="env-body"></div>
+  </div>
+  <div class="tap-text">💌 Chạm vào màn hình để mở thư</div>
+
+  <!-- LỚP BẮT TOUCH -->
+  <div id="tap-layer"></div>
+</div>
+
+<!-- MAIN APP -->
+<div id="app">
+  <div id="hearts"></div>
+
+  <div class="card">
+    <div style="font-size:48px">💝</div>
+    <h1 class="font-romantic" style="font-size:32px;color:#ec4899">
+      Happy Valentine's Day
+    </h1>
+    <p>Gửi đến</p>
+    <h2 class="font-romantic" style="font-size:26px">
+      Hặn iu 💕
+    </h2>
+
+    <p style="margin:12px 0;background:#fce7f3;padding:12px;border-radius:16px">
+      "Cảm ơn vì đã đến, love u so much! 💕"
+    </p>
+
+    <p>Với tất cả tình yêu từ</p>
+    <p class="font-romantic" style="font-size:22px">
+      Người Yêu Của Chị 💋
+    </p>
+
+    <div id="typing"></div>
+    <div class="font-romantic">14 / 02 / 2026</div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
+
+  const tapLayer=document.getElementById('tap-layer')
+  const start=document.getElementById('start')
+  const app=document.getElementById('app')
+  const envelope=document.getElementById('envelope')
+
+  function openLetter(){
+    envelope.classList.add('open')
+    setTimeout(()=>{
+      start.style.display='none'
+      app.style.display='flex'
+      startHearts()
+      startTyping()
+    },700)
+  }
+
+  /* BẮT CẢ TOUCH + CLICK */
+  tapLayer.addEventListener('touchstart',openLetter,{once:true})
+  tapLayer.addEventListener('click',openLetter,{once:true})
+
+})
+
+function startHearts(){
+  setInterval(()=>{
+    const h=document.createElement('div')
+    h.className='heart'
+    h.innerHTML=['💕','💖','💗','💓','💝'][Math.floor(Math.random()*5)]
+    h.style.left=Math.random()*100+'vw'
+    h.style.fontSize=Math.random()*16+14+'px'
+    h.style.animationDuration=Math.random()*3+5+'s'
+    document.getElementById('hearts').appendChild(h)
+    setTimeout(()=>h.remove(),8000)
+  },600)
+}
+
+function startTyping(){
+  const text="I Love You ❤️"
+  let i=0
+  const el=document.getElementById('typing')
+  function type(){
+    if(i<=text.length){
+      el.textContent=text.slice(0,i++)
+      setTimeout(type,150)
+    }else{
+      setTimeout(()=>{
+        i=0;el.textContent='';type()
+      },2500)
+    }
+  }
+  type()
+}
+</script>
+
+</body>
+</html>
